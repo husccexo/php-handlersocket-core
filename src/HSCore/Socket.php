@@ -68,7 +68,7 @@ class Socket {
      * @see https://github.com/DeNA/HandlerSocket-Plugin-for-MySQL/blob/master/docs-en/protocol.en.txt
      *
      * @param array $params
-     * @return string
+     * @return array
      * @throws HSException
      */
     public function request(array $params) {
