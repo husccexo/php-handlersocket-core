@@ -10,9 +10,11 @@ class Socket {
     private $indexes = [];
     private $currentIndex = 1;
 
+    private static $drivers = [];
+
 
     public function __construct($server = 'localhost', $port = 9998, $secret = null) {
-        $this->socket = new Driver($server, $port);
+        $this->socket = self::getDriver($server, $port);
         $this->secret = $secret;
     }
 
@@ -121,5 +123,21 @@ class Socket {
                 $this->socket->send(join(Driver::SEP, ['A', 1, Driver::encode($this->secret)]).Driver::EOL);
             }
         }
+    }
+
+
+    /**
+     * @param $server
+     * @param $port
+     * @return Driver
+     */
+    private static function getDriver($server, $port) {
+        $id = $server.$port;
+
+        if (!isset(self::$drivers[$id])) {
+            self::$drivers[$id] = new Driver($server, $port);
+        }
+
+        return self::$drivers[$id];
     }
 }
