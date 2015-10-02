@@ -10,6 +10,11 @@ class HandlerSocket {
     const OP_LESS = '<';
     const OP_LESS_AND = '<=';
 
+    const COMMAND_UPDATE = 'U';
+    const COMMAND_DELETE = 'D';
+    const COMMAND_INCREMENT = '+';
+    const COMMAND_DECREMENT = '-';
+
     private $readHost, $readPort, $readSecret;
     private $writeHost, $writePort, $writeSecret;
     private $debug;
