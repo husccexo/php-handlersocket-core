@@ -1,0 +1,25 @@
+{
+    "name": "husccexo/php-handlersocket-core",
+    "description": "Core of client library for MySQL HandlerSocket extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Bek-Nazarov Vitaliy",
+            "email": "husccexo@gmail.com"
+        }
+    ],
+    "keywords": [
+        "mysql", "mariadb", "percona", "handler socket", "HandlerSocket", "nosql", "php", "extension"
+    ],
+    "support": {
+        "source": "http://github.com/husccexo/php-handlersocket-core"
+    },
+    "autoload": {
+        "classmap": [
+            "src/HSCore"
+        ]
+    },
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
