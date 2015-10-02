@@ -10,10 +10,16 @@ class HandlerSocket {
     const OP_LESS = '<';
     const OP_LESS_AND = '<=';
 
+    // Commands
     const COMMAND_UPDATE = 'U';
     const COMMAND_DELETE = 'D';
     const COMMAND_INCREMENT = '+';
     const COMMAND_DECREMENT = '-';
+
+    // Filter types
+    const FTYPE_FILTER = 'F';
+    const FTYPE_WHILE = 'W';
+
 
     private $readHost, $readPort, $readSecret;
     private $writeHost, $writePort, $writeSecret;
