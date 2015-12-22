@@ -76,7 +76,7 @@ class Driver {
         $timer = microtime(true);
 
         while ($string) {
-            $bytes = @fwrite($this->socket, $string);
+            $bytes = fwrite($this->socket, $string);
 
             if ($bytes === false) {
                 $this->close();
@@ -176,9 +176,9 @@ class Driver {
     private function receive() {
         $timer = microtime(true);
 
-        $str = @fgets($this->socket);
+        $str = fgets($this->socket);
 
-        if (!$str) {
+        if ($str === false) {
             $this->close();
             throw new HSException('Cannot read from socket');
         }
