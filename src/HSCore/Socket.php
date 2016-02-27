@@ -2,7 +2,8 @@
 
 namespace HSCore;
 
-class Socket {
+class Socket
+{
     private $socket;
 
     private $secret;
@@ -13,13 +14,15 @@ class Socket {
     private static $drivers = [];
 
 
-    public function __construct($server = 'localhost', $port = 9998, $secret = null) {
+    public function __construct($server = 'localhost', $port = 9998, $secret = null)
+    {
         $this->socket = self::getDriver($server, $port);
         $this->secret = $secret;
     }
 
 
-    public function __destruct() {
+    public function __destruct()
+    {
         unset($this->socket, $this->secret);
     }
 
@@ -35,7 +38,8 @@ class Socket {
      * @param array|null $fColumns
      * @return int
      */
-    public function openIndex($dbName, $tableName, $indexName = null, array $columns = [], array $fColumns = null) {
+    public function openIndex($dbName, $tableName, $indexName = null, array $columns = [], array $fColumns = null)
+    {
         if (empty($indexName)) {
             $indexName = 'PRIMARY';
         }
@@ -57,7 +61,11 @@ class Socket {
     }
 
 
-    public function getLogs() {
+    /**
+     * @return array
+     */
+    public function getLogs()
+    {
         return $this->socket->getLogs();
     }
 
@@ -71,7 +79,8 @@ class Socket {
      * @return array
      * @throws HSException
      */
-    public function request(array $params) {
+    public function request(array $params)
+    {
         return $this->parseResponse($this->send($params));
     }
 
@@ -83,7 +92,8 @@ class Socket {
      * @return string
      * @throws HSException
      */
-    protected function send(array $params) {
+    protected function send(array $params)
+    {
         $this->connect();
         return $this->socket->send(join(Driver::SEP, array_map([$this->socket, 'encode'], $params)).Driver::EOL);
     }
@@ -96,7 +106,8 @@ class Socket {
      * @return array
      * @throws HSException
      */
-    protected function parseResponse($string) {
+    protected function parseResponse($string)
+    {
         $exp = explode(Driver::SEP, $string);
 
         if ($exp[0] != 0) {
@@ -117,7 +128,8 @@ class Socket {
      *
      * @throws HSException
      */
-    private function connect() {
+    private function connect()
+    {
         if (!$this->socket->isOpened()) {
             $this->socket->open();
 
@@ -133,7 +145,8 @@ class Socket {
      * @param $port
      * @return Driver
      */
-    private static function getDriver($server, $port) {
+    private static function getDriver($server, $port)
+    {
         $id = $server.$port;
 
         if (!isset(self::$drivers[$id])) {

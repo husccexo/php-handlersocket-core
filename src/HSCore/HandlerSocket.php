@@ -2,7 +2,8 @@
 
 namespace HSCore;
 
-class HandlerSocket {
+class HandlerSocket
+{
     // Comparison Operators
     const OP_EQUAL = '=';
     const OP_MORE = '>';
@@ -45,7 +46,8 @@ class HandlerSocket {
     }
 
 
-    public function __destruct() {
+    public function __destruct()
+    {
         if ($this->debug) {
             $this->showLogs();
         }
@@ -60,27 +62,59 @@ class HandlerSocket {
     }
 
 
-    public function openReadIndex($dbName, $tableName, $indexName = null, array $columns = [], array $fColumns = null) {
+    /**
+     * @param $dbName
+     * @param $tableName
+     * @param string $indexName
+     * @param array $columns
+     * @param array $fColumns
+     * @return int
+     */
+    public function openReadIndex($dbName, $tableName, $indexName = null, array $columns = [], array $fColumns = null)
+    {
         return $this->getRead()->openIndex($dbName, $tableName, $indexName, $columns, $fColumns);
     }
 
 
-    public function openWriteIndex($dbName, $tableName, $indexName = null, array $columns = [], array $fColumns = null) {
+    /**
+     * @param $dbName
+     * @param $tableName
+     * @param string $indexName
+     * @param array $columns
+     * @param array $fColumns
+     * @return int
+     */
+    public function openWriteIndex($dbName, $tableName, $indexName = null, array $columns = [], array $fColumns = null)
+    {
         return $this->getWrite()->openIndex($dbName, $tableName, $indexName, $columns, $fColumns);
     }
 
 
-    public function readRequest(array $params) {
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function readRequest(array $params)
+    {
         return $this->getRead()->request($params);
     }
 
 
-    public function writeRequest(array $params) {
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function writeRequest(array $params)
+    {
         return $this->getWrite()->request($params);
     }
 
 
-    public function getLogs() {
+    /**
+     * @return array
+     */
+    public function getLogs()
+    {
         return [
             'reader' => $this->getRead()->getLogs(),
             'writer' => $this->getWrite()->getLogs()
@@ -88,7 +122,11 @@ class HandlerSocket {
     }
 
 
-    public function showLogs() {
+    /**
+     * Print logs
+     */
+    public function showLogs()
+    {
         $logs = $this->getLogs();
 
         $result = array_map(function($array) {
@@ -101,18 +139,22 @@ class HandlerSocket {
             }
 
             return [
-                'data' => join(chr(10), $data),
+                'data' => join(PHP_EOL, $data),
                 'totalTime' => number_format($time, 5)
             ];
         }, $logs);
 
         foreach ($result as $socket => $row) {
-            echo chr(10).chr(10).$socket.' (total time: '.$row['totalTime'].')'.chr(10).chr(10).$row['data'].chr(10);
+            echo PHP_EOL.PHP_EOL.$socket.' (total time: '.$row['totalTime'].')'.PHP_EOL.PHP_EOL.$row['data'].PHP_EOL;
         }
     }
 
 
-    protected function getRead() {
+    /**
+     * @return Socket
+     */
+    protected function getRead()
+    {
         if (!$this->read) {
             $this->read = new Socket($this->readHost, $this->readPort, $this->readSecret);
         }
@@ -121,7 +163,11 @@ class HandlerSocket {
     }
 
 
-    protected function getWrite() {
+    /**
+     * @return Socket
+     */
+    protected function getWrite()
+    {
         if (!$this->write) {
             $this->write = new Socket($this->writeHost, $this->writePort, $this->writeSecret);
         }

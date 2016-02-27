@@ -2,7 +2,8 @@
 
 namespace HSCore;
 
-class Driver {
+class Driver
+{
     const EOL       = "\n";
     const SEP       = "\t";
     const NULL      = "\0";
@@ -47,18 +48,20 @@ class Driver {
         "\x0F" => "\x01\x4F"
     ];
 
-    private $socket = null;
-    private $address = null;
+    private $socket;
+    private $address;
 
     private $logs = [];
 
 
-    public function __construct($server = 'localhost', $port = 9998) {
+    public function __construct($server = 'localhost', $port = 9998)
+    {
         $this->address = $server.':'.$port;
     }
 
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->close();
     }
 
@@ -70,7 +73,8 @@ class Driver {
      * @return string
      * @throws HSException
      */
-    public function send($command) {
+    public function send($command)
+    {
         $string = $command;
 
         $timer = microtime(true);
@@ -105,7 +109,8 @@ class Driver {
      *
      * @return bool
      */
-    public function isOpened() {
+    public function isOpened()
+    {
         return is_resource($this->socket);
     }
 
@@ -116,10 +121,9 @@ class Driver {
      * @param $string
      * @return string
      */
-    public static function encode($string) {
-        return is_null($string)
-            ? self::NULL
-            : strtr($string, self::$encodeMap);
+    public static function encode($string)
+    {
+        return is_null($string) ? self::NULL : strtr($string, self::$encodeMap);
     }
 
 
@@ -129,10 +133,9 @@ class Driver {
      * @param $string
      * @return null|string
      */
-    public static function decode($string) {
-        return ($string === self::NULL)
-            ? null
-            : strtr($string, self::$decodeMap);
+    public static function decode($string)
+    {
+        return ($string === self::NULL) ? null : strtr($string, self::$decodeMap);
     }
 
 
@@ -141,7 +144,8 @@ class Driver {
      *
      * @throwsHSrException
      */
-    public function open() {
+    public function open()
+    {
         $this->socket = stream_socket_client('tcp://'.$this->address, $errc, $errs, STREAM_CLIENT_CONNECT);
 
         if (!$this->socket) {
@@ -153,7 +157,8 @@ class Driver {
     /**
      * Close Handler Socket
      */
-    public function close() {
+    public function close()
+    {
         if ($this->isOpened()) {
             @fclose($this->socket);
             $this->socket = null;
@@ -161,7 +166,11 @@ class Driver {
     }
 
 
-    public function getLogs() {
+    /**
+     * @return array
+     */
+    public function getLogs()
+    {
         return $this->logs;
     }
 
@@ -173,7 +182,8 @@ class Driver {
      * @return string
      * @throws HSException
      */
-    private function receive() {
+    private function receive()
+    {
         $timer = microtime(true);
 
         $str = fgets($this->socket);
