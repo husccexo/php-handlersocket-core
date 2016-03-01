@@ -51,6 +51,8 @@ class Driver
     private $socket;
     private $address;
 
+    private $indexes = [];
+
     private $logs = [];
 
 
@@ -163,6 +165,22 @@ class Driver
             @fclose($this->socket);
             $this->socket = null;
         }
+    }
+
+
+    /**
+     * @param $hash
+     * @param $closure
+     * @return int
+     */
+    public function registerIndex($hash, $closure)
+    {
+        if (!isset($this->indexes[$hash])) {
+            $this->indexes[$hash] = count($this->indexes) + 1;
+            $closure($this->indexes[$hash]);
+        }
+
+        return $this->indexes[$hash];
     }
 
 

@@ -8,9 +8,6 @@ class Socket
 
     private $secret;
 
-    private $indexes = [];
-    private $currentIndex = 1;
-
     private static $drivers = [];
 
 
@@ -52,12 +49,12 @@ class Socket
 
         $key = join(';', $params);
 
-        if (!isset($this->indexes[$key])) {
-            $this->indexes[$key] = $this->currentIndex++;
-            $this->send(array_merge(['P', $this->indexes[$key]], $params));
-        }
-
-        return $this->indexes[$key];
+        return $this->socket->registerIndex(
+            $key,
+            function ($index) use ($params) {
+                $this->send(array_merge(['P', $index], $params));
+            }
+        );
     }
 
 
