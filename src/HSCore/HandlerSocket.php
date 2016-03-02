@@ -22,24 +22,22 @@ class HandlerSocket
     const FTYPE_WHILE = 'W';
 
 
-    private $readHost, $readPort, $readSecret;
-    private $writeHost, $writePort, $writeSecret;
+    private $readAddress, $readSecret;
+    private $writeAddress, $writeSecret;
     private $debug;
 
     protected $read, $write;
 
 
     public function __construct(
-        $readHost = 'localhost', $readPort = 9998, $readSecret = null,
-        $writeHost = 'localhost', $writePort = 9999, $writeSecret = null,
+        $readAddress = 'localhost:9998', $readSecret = null,
+        $writeAddress = 'localhost:9999', $writeSecret = null,
         $debug = false
     ) {
-        $this->readHost = $readHost;
-        $this->readPort = $readPort;
+        $this->readAddress = $readAddress;
         $this->readSecret = $readSecret;
 
-        $this->writeHost = $writeHost;
-        $this->writePort = $writePort;
+        $this->writeAddress = $writeAddress;
         $this->writeSecret = $writeSecret;
 
         $this->debug = $debug;
@@ -156,7 +154,7 @@ class HandlerSocket
     protected function getRead()
     {
         if (!$this->read) {
-            $this->read = new Socket($this->readHost, $this->readPort, $this->readSecret);
+            $this->read = new Socket($this->readAddress, $this->readSecret);
         }
 
         return $this->read;
@@ -169,7 +167,7 @@ class HandlerSocket
     protected function getWrite()
     {
         if (!$this->write) {
-            $this->write = new Socket($this->writeHost, $this->writePort, $this->writeSecret);
+            $this->write = new Socket($this->writeAddress, $this->writeSecret);
         }
 
         return $this->write;

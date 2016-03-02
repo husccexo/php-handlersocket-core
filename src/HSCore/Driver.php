@@ -56,9 +56,9 @@ class Driver
     private $logs = [];
 
 
-    public function __construct($server = 'localhost', $port = 9998)
+    public function __construct($address = 'localhost:9998')
     {
-        $this->address = $server.':'.$port;
+        $this->address = $address;
     }
 
 

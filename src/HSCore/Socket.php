@@ -11,9 +11,9 @@ class Socket
     private static $drivers = [];
 
 
-    public function __construct($server = 'localhost', $port = 9998, $secret = null)
+    public function __construct($address = 'localhost:9998', $secret = null)
     {
-        $this->socket = self::getDriver($server, $port, $secret);
+        $this->socket = self::getDriver($address, $secret);
         $this->secret = $secret;
     }
 
@@ -132,17 +132,16 @@ class Socket
 
 
     /**
-     * @param $server
-     * @param $port
-     * @param $secret
+     * @param string $address
+     * @param string $secret
      * @return Driver
      */
-    private static function getDriver($server, $port, $secret)
+    private static function getDriver($address, $secret = null)
     {
-        $id = $server . '|' . $port . '|' . $secret;
+        $id = $address . '|' . $secret;
 
         if (!isset(self::$drivers[$id])) {
-            self::$drivers[$id] = new Driver($server, $port);
+            self::$drivers[$id] = new Driver($address);
         }
 
         return self::$drivers[$id];

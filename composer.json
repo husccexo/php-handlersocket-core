@@ -16,7 +16,8 @@
     },
     "autoload": {
         "classmap": [
-            "src/HSCore"
+            "src/HSCore",
+            "src/HSLib"
         ]
     },
     "require": {
