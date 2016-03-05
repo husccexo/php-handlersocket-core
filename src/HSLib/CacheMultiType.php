@@ -54,7 +54,7 @@ class CacheMultiType implements AdvancedCacheInterface
     public function exists($group, $key)
     {
         $params = [
-            $this->hs->openReadIndex($this->db, $this->table, null, ['type']),
+            $this->hs->openReadIndex($this->db, $this->table, null, ['expire']),
             HandlerSocket::OP_EQUAL,
             2,
             $group, $key

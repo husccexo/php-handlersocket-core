@@ -47,7 +47,7 @@ class CacheMultiTable implements AdvancedCacheInterface
     public function exists($group, $key)
     {
         $params = [
-            $this->hs->openReadIndex($this->db, $group),
+            $this->hs->openReadIndex($this->db, $group, null, ['expire']),
             HandlerSocket::OP_EQUAL,
             1,
             $key
@@ -118,7 +118,7 @@ class CacheMultiTable implements AdvancedCacheInterface
             1,
             '',
             $ivlen, 0,
-            '@', 1, $ivlen
+            '@', 0, $ivlen
         ], $keys);
 
         foreach ($this->hs->readRequest($params) as $row) {
@@ -215,8 +215,9 @@ class CacheMultiTable implements AdvancedCacheInterface
     public function flush($group)
     {
         $params = [
-            $this->hs->openWriteIndex($this->db, $group),
-            HandlerSocket::OP_EQUAL,
+            $this->hs->openWriteIndex($this->db, $group, 'expire'),
+            HandlerSocket::OP_MORE_AND,
+            1,
             0,
             $this->manyLimit, 0,
             HandlerSocket::COMMAND_DELETE
