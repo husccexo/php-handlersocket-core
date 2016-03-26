@@ -202,7 +202,7 @@ class CacheMultiTable implements AdvancedCacheInterface
             1,
             time(),
             $this->manyLimit, 0,
-            'F', HandlerSocket::OP_MORE, 1, 0,
+            'F', HandlerSocket::OP_MORE, 0, 0,
             HandlerSocket::COMMAND_DELETE
         ];
 
