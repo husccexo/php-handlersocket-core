@@ -21,7 +21,7 @@ class CacheMultiType implements AdvancedCacheInterface
     /**
      * @var int
      */
-    public $manyLimit = 99999;
+    public $manyLimit = 1000;
 
     /**
      * @param string $readAddress
